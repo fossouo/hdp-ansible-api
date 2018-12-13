@@ -1,15 +1,24 @@
 ---
-- command: "kadmin -p {{ kerberos_principal }} -w {{ kerberos_principal_password }} -q 'list_principals'"
-  register: kadmin_check
-  retries: 60
+- name: Ensure krb client is installed
+  yum:
+    name: ['openldap-clients', 'krb5-workstation']
+    state: present
+    update_cache: yes
+  delegate_to: "{{ item }}"
+  with_items:
+    - "{{ cluster_hosts }}"
+
+# - command: "kadmin -p {{ kerberos_principal }} -w {{ kerberos_principal_password }} -q 'list_principals'"
+#   register: kadmin_check
+#   retries: 60
 
 - name: Check if Kerberos already installed
   uri:
     url: "{{ ambari_server_protocol }}://{{ ambari_server_hostname }}:{{ ambari_server_port }}/api/v1/clusters/{{ ambari_namespace }}/services/KERBEROS"
     method: GET
     force_basic_auth: yes
-    user: "admin"
-    password: "admin"
+    user: "{{ ambari_username }}"
+    password: "{{ ambari_password }}"
     headers: '{"X-Requested-By":"ambari", "Content-Type": "application/x-www-form-urlencoded"}'
     validate_certs: no
     return_content: yes
@@ -22,8 +31,8 @@
    url: "{{ ambari_server_protocol }}://{{ ambari_server_hostname }}:{{ ambari_server_port }}/api/v1/clusters/{{ ambari_namespace }}/services/KERBEROS"
    method: POST
    force_basic_auth: yes
-   user: "admin"
-   password: "admin"
+   user: "{{ ambari_username }}"
+   password: "{{ ambari_password }}"
    headers: '{"X-Requested-By":"ambari", "Content-Type": "application/x-www-form-urlencoded"}'
    validate_certs: no
    return_content: yes
@@ -36,8 +45,8 @@
     url: "{{ ambari_server_protocol }}://{{ ambari_server_hostname }}:{{ ambari_server_port }}/api/v1/clusters/{{ ambari_namespace }}/services/KERBEROS/components/KERBEROS_CLIENT"
     method: GET
     force_basic_auth: yes
-    user: "admin"
-    password: "admin"
+    user: "{{ ambari_username }}"
+    password: "{{ ambari_password }}"
     headers: '{"X-Requested-By":"ambari", "Content-Type": "application/x-www-form-urlencoded"}'
     validate_certs: no
     status_code: 200,201,202,404
@@ -49,8 +58,8 @@
    url: "{{ ambari_server_protocol }}://{{ ambari_server_hostname }}:{{ ambari_server_port }}/api/v1/clusters/{{ ambari_namespace }}/services/KERBEROS/components/KERBEROS_CLIENT"
    method: POST
    force_basic_auth: yes
-   user: "admin"
-   password: "admin"
+   user: "{{ ambari_username }}"
+   password: "{{ ambari_password }}"
    headers: '{"X-Requested-By":"ambari", "Content-Type": "application/x-www-form-urlencoded"}'
    validate_certs: no
    status_code: 200,201,202,404
@@ -68,8 +77,8 @@
    url: "{{ ambari_server_protocol }}://{{ ambari_server_hostname }}:{{ ambari_server_port }}/api/v1/clusters/{{ ambari_namespace }}"
    method: PUT
    force_basic_auth: yes
-   user: "admin"
-   password: "admin"
+   user: "{{ ambari_username }}"
+   password: "{{ ambari_password }}"
    headers: '{"X-Requested-By":"ambari", "Content-Type": "application/x-www-form-urlencoded"}'
    body: "{{ lookup('template','templates/kerberos/krb5-conf.json.j2') }}"
    body_format: json
@@ -88,8 +97,8 @@
    url: "{{ ambari_server_protocol }}://{{ ambari_server_hostname }}:{{ ambari_server_port }}/api/v1/clusters/{{ ambari_namespace }}/hosts"
    method: POST
    force_basic_auth: yes
-   user: "admin"
-   password: "admin"
+   user: "{{ ambari_username }}"
+   password: "{{ ambari_password }}"
    headers: '{"X-Requested-By":"ambari", "Content-Type": "application/x-www-form-urlencoded"}'
    body: "{{ lookup('template','templates/kerberos/deploy_krb_client.json.j2') }}"
    body_format: json
@@ -104,8 +113,8 @@
    url: "{{ ambari_server_protocol }}://{{ ambari_server_hostname }}:{{ ambari_server_port }}/api/v1/clusters/{{ ambari_namespace }}/host_components?HostRoles/state=INIT"
    method: PUT
    force_basic_auth: yes
-   user: "admin"
-   password: "admin"
+   user: "{{ ambari_username }}"
+   password: "{{ ambari_password }}"
    headers: '{"X-Requested-By":"ambari", "Content-Type": "application/x-www-form-urlencoded"}'
    body: '{ "context": "Install Keberos Services","HostRoles": { "state":"INSTALLED" } }'
    body_format: json
@@ -122,8 +131,8 @@
    url: "{{ ambari_server_protocol }}://{{ ambari_server_hostname }}:{{ ambari_server_port }}/api/v1/clusters/{{ ambari_namespace }}"
    method: PUT
    force_basic_auth: yes
-   user: "admin"
-   password: "admin"
+   user: "{{ ambari_username }}"
+   password: "{{ ambari_password }}"
    headers: '{"X-Requested-By":"ambari", "Content-Type": "application/x-www-form-urlencoded"}'
    body: "{{ lookup('template','templates/kerberos/krb_enable.json.j2') }}"
    body_format: json
@@ -137,8 +146,8 @@
    url: "{{ ambari_server_protocol }}://{{ ambari_server_hostname }}:{{ ambari_server_port }}/api/v1/clusters/{{ cluster_name }}/requests/{{ add_kerberos_client_configuration.json.Requests.id }}"
    method: GET
    force_basic_auth: yes
-   user: "admin"
-   password: "admin"
+   user: "{{ ambari_username }}"
+   password: "{{ ambari_password }}"
    headers: '{"X-Requested-By":"ambari", "Content-Type":"application/json"}'
    status_code: 200,201,202
    validate_certs: no
@@ -157,8 +166,8 @@
 #    url: "{{ ambari_server_protocol }}://{{ ambari_server_hostname }}:{{ ambari_server_port }}/api/v1/clusters/{{ ambari_namespace }}?regenerate_keytabs=all"
 #    method: PUT
 #    force_basic_auth: yes
-#    user: "admin"
-#    password: "admin"
+#    user: "{{ ambari_username }}"
+#    password: "{{ ambari_password }}"
 #    headers: '{"X-Requested-By":"ambari", "Content-Type": "application/x-www-form-urlencoded"}'
 #    body: '{"Clusters":{"security_type":"KERBEROS"}}'
 #    body_format: json
@@ -172,8 +181,8 @@
 #    url: "{{ ambari_server_protocol }}://{{ ambari_server_hostname }}:{{ ambari_server_port }}/api/v1/clusters/{{ cluster_name }}/requests/{{ regenerate_keytabs.json.Requests.id }}"
 #    method: GET
 #    force_basic_auth: yes
-#    user: "admin"
-#    password: "admin"
+#    user: "{{ ambari_username }}"
+#    password: "{{ ambari_password }}"
 #    headers: '{"X-Requested-By":"ambari", "Content-Type":"application/json"}'
 #    status_code: 200,201,202
 #    validate_certs: no
