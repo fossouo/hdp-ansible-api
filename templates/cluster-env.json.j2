@@ -9,7 +9,6 @@
   "fetch_nonlocal_groups" : "true",
   "hide_yarn_memory_widget" : "false",
   "ignore_bad_mounts" : "false",
-  "ignore_groupsusers_create" : "true",
   "kerberos_domain" : "EXAMPLE.COM",
   "manage_dirs_on_root" : "true",
   "managed_hdfs_resource_property_names" : "",
@@ -34,7 +33,8 @@
   "sysprep_skip_copy_fast_jar_hdfs" : "false",
   "sysprep_skip_copy_oozie_share_lib_to_hdfs" : "false",
   "sysprep_skip_copy_tarballs_hdfs" : "false",{% endraw %}
-  "sysprep_skip_create_users_and_groups" : "{{ create_users_and_groups | default('true') | lower }}",
+  "sysprep_skip_create_users_and_groups" : "{{ ignore_create_users_and_groups | default('false') | lower }}",
+  "ignore_groupsusers_create" : "{{ ignore_create_users_and_groups | default('false') | lower }}",
   "sysprep_skip_setup_jce" : "false",
   "user_group" : "hadoop"
       }
