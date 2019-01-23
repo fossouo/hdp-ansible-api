@@ -5,7 +5,7 @@
 			"tag": "{{ range(00000000, 99999999) | random }}",
 			"properties": {
         "cluster_name" : "{{ cluster_name }}",
-        "stack_id" : "HDP-2.6"
+        "stack_id" : "HDP-{{ hdp_version }}"
 			}
 		}
 	}
