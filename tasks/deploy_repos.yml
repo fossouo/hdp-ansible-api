@@ -1,0 +1,15 @@
+---
+######## Install hdp-select ###############
+- template:
+    src: templates/repository_versions/hdp.repo.j2
+    dest: /etc/yum.repos.d/hdp.repo
+  delegate_to: "{{ item }}"
+  with_items:
+    - "{{ cluster_hosts }}"
+
+- name: Ensure software is installed (yum)
+  yum: name="hdp-select" state=present update_cache=yes
+  delegate_to: "{{ item }}"
+  with_items:
+    - "{{ cluster_hosts }}"
+####################################################
