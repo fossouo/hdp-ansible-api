@@ -3,7 +3,7 @@ wait_timeout: 3600
 capacity_scheduler_file: 'capacity-scheduler'
 base_cluster:
   conf: ['cluster-env', 'global', 'hadoop-env']
-vdf_source: templates/repo.xml.j2
+vdf_source: "{{ vdf_path | default('templates/repo.xml.j2') }}"
 sattelite_repo: false
 services:
   - name: HDFS
