@@ -72,6 +72,7 @@ Vagrant:
 
 - Ansible on your deployment machine
 - JDK 1.8 installed on your hosts
+- Ambari-server and Ambari-agent installed
 - Mysql/MariaDB or PostgreSQL Database installed for Ambari Server Backend
 - NTPD Installed
 - Network Resolution
