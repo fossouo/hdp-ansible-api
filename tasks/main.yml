@@ -2,6 +2,9 @@
 # Check variables/layout
 # - include: check_variables.yml
 
+# Deploy HDP repository
+- include: deploy_repos.yml
+
 # Actions beforce installing
 - include: pre_install.yml
 
@@ -14,7 +17,7 @@
 # Trigger cluster
 - include: trigger_cluster_installation.yml
 
-# Keberize
+# Kerberize
 - include: enable_kerberos.yml
   when: cluster_services.KERBEROS is defined
 
