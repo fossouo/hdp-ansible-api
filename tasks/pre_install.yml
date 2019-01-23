@@ -1,4 +1,48 @@
 ---
+########### Check ambari-agent install/configuration #######
+- name: Ensure software is installed (yum)
+  yum: name="ambari-agent" state=present update_cache=yes
+  delegate_to: "{{ item }}"
+  with_items:
+    - "{{ cluster_hosts }}"
+
+- name: Stop ambari-agent
+  shell: ambari-agent stop; systemctl stop ambari-agent
+  ignore_errors: true
+  delegate_to: "{{ item }}"
+  with_items:
+    - "{{ cluster_hosts }}"
+
+- lineinfile:
+    path: /etc/ambari-agent/conf/ambari-agent.ini
+    regexp: '^hostname='
+    line: 'hostname={{ ambari_server_hostname }}'
+  delegate_to: "{{ item }}"
+  with_items:
+    - "{{ cluster_hosts }}"
+  register: checkambariagent
+
+- name: Restart services
+  block:
+    - name: Restart service "Ambari Agent"
+      systemd:
+        state: restarted
+        name: ambari-agent
+      delegate_to: "{{ item }}"
+      with_items:
+        - "{{ cluster_hosts }}"
+
+    - name: Restart service "Ambari Server"
+      systemd:
+        state: restarted
+        name: ambari-server
+      delegate_to: "{{ ambari_server_hostname }}"
+
+    - name: Wait agent to register
+      shell: sleep 60
+  when: checkambariagent.changed
+####################################################
+
 ######## Fix failed installation due to TLS version in Ambari-agent ########
 - lineinfile:
     path: /etc/ambari-agent/conf/ambari-agent.ini
@@ -30,3 +74,46 @@
       shell: sleep 60
   when: fixambari.changed
 ####################################################
+
+##############Fix ambari ############################
+- name: fix error "no package found"
+  replace:
+    path: /usr/lib/ambari-agent/lib/resource_management/libraries/script/script.py
+    regexp: 'package_version = None'
+    replace: '#package_version = None'
+  delegate_to: "{{ item }}"
+  with_items:
+  - "{{ cluster_hosts }}"
+#####################################################
+
+##############Fix ambari ############################
+- name: fix threadpool
+  replace:
+    path: /etc/ambari-agent/conf/ambari-agent.ini
+    regexp: '^agent.threadpool.size.max='
+    replace: 'agent.threadpool.size.max=120'
+  delegate_to: "{{ item }}"
+  with_items:
+  - "{{ cluster_hosts }}"
+  register: fixambari2
+
+- name: Restart services
+  block:
+    - name: Restart service "Ambari Agent"
+      systemd:
+        state: restarted
+        name: ambari-agent
+      delegate_to: "{{ item }}"
+      with_items:
+        - "{{ cluster_hosts }}"
+
+    - name: Restart service "Ambari Server"
+      systemd:
+        state: restarted
+        name: ambari-server
+      delegate_to: "{{ ambari_server_hostname }}"
+
+    - name: Wait agent to register
+      shell: sleep 60
+  when: fixambari2.changed
+#####################################################
