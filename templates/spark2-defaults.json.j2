@@ -11,8 +11,9 @@
         "spark.history.fs.logDirectory" : "hdfs:///spark2-history/",
         "spark.history.kerberos.keytab" : "none",
         "spark.history.kerberos.principal" : "none",{% endraw %}
-				"spark.ssl.enabled" : "true",
 				"spark.history.ui.port" : "8001",
+				{% if cluster_services.SPARK2 is defined and cluster_services.SPARK2.SSL is defined and cluster_services.SPARK2.SSL %}
+				"spark.ssl.enabled" : "true",
 				"spark.ssl.historyServer.port" : "8401", {# need to be "spark.history.ui.port" + 400 #}
 				"spark.ssl.keyPassword" : "{{ ssl_keystore_password }}",
 				"spark.ssl.keyStore" : "{{ ssl_keystore_path }}",
@@ -20,8 +21,13 @@
 				"spark.ssl.protocol" : "TLS",
 				"spark.ssl.trustStore" : "{{ ssl_truststore_path }}",
 				"spark.ssl.trustStorePassword" : "{{ ssl_truststore_password }}",
-				"spark.ui.https.enabled" : "false",
 				"spark.io.encryption.enabled" : "true",
+				"spark.encrypted.shuffle" : "true",
+				{% else %}
+				"spark.ui.https.enabled" : "false",
+				"spark.io.encryption.enabled" : "false",
+				"spark.encrypted.shuffle" : "false",
+				{% endif %}
 				"spark.io.encryption.keySizeBits" : "128",
 				"spark.io.encryption.keygen.algorithm" : "HmacSHA1",
 				"spark.authenticate.enableSaslEncryption" : "true",
