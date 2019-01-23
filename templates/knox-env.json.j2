@@ -4,7 +4,7 @@
 			"type": "knox-env",
 			"tag": "{{ range(00000000, 99999999) | random }}",
 			"properties": {
-				"knox_master_secret": "{{ knox_master_password }}",
+				"knox_master_secret": "{{ knox_master_password | default('test12345678') }}",
 				"knox_user" : "knox",
 				"knox_group" : "knox",
 				"knox_keytab_path" : "/etc/security/keytabs/knox.service.keytab",
