@@ -84,6 +84,15 @@
   delegate_to: "{{ item }}"
   with_items:
   - "{{ cluster_hosts }}"
+
+- name: fix error "package **** not supported by this version of the stack-select tool"
+  lineinfile:
+    path: /usr/lib/ambari-agent/lib/resource_management/libraries/script/script.py
+    regexp: "package_regex = name.replace"
+    line: "    package_regex = name.replace(STACK_VERSION_PLACEHOLDER, '(\\d|{0})+'.format(package_delimiter))"
+  delegate_to: "{{ item }}"
+  with_items:
+  - "{{ cluster_hosts }}"
 #####################################################
 
 ##############Fix ambari ############################
