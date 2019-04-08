@@ -64,7 +64,7 @@
         ignore_create_users_and_groups: false                             ## Ignore creation of default users/groups with Ambari
         ambari_manage_krb5_conf: true                                     ## True : Ambari-server iwll manage krb5.conf
         hdp_version: 2.5                                                  ## HDP version (2.1 2.2 [..] 2.6)
-        vdf_path: templates/repository_version/HDP2.5.xml                 ## VDF path if you want a specific HDP version
+        vdf_path: templates/repository_version/HDP2.6.xml                 ## VDF path if you want a specific HDP version
         cluster_services:
           HDFS:
             HA: True
