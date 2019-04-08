@@ -20,7 +20,7 @@
         "server.ssl_enabled" : "false",
         "server.storage.dir" : "/var/lib/smartsense/hst-server/data",
         "server.tmp.dir" : "/var/lib/smartsense/hst-server/tmp",{% endraw %}
-        "server.url" : "http://{{ groups['HST_SERVER'][0] }}:9000"
+        "server.url" : "http://{{ all['HST_SERVER'][0] }}:9000"
       }
     }
   }

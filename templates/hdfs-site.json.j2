@@ -5,9 +5,9 @@
 			"tag": "{{ range(00000000, 99999999) | random }}",
 			"properties": {
 				{% if cluster_services.RANGER_KMS is defined and cluster_services.RANGER_KMS.SSL is defined and cluster_services.RANGER_KMS.SSL %}
-				"hadoop.security.key.provider.path": "kms://https@{{ groups['RANGER_KMS_SERVER'][0] }}:9393/kms",
+				"hadoop.security.key.provider.path": "kms://https@{{ all['RANGER_KMS_SERVER'][0] }}:9393/kms",
 				{% elif cluster_services.RANGER_KMS is defined and cluster_services.RANGER_KMS.SSL is defined and not cluster_services.RANGER_KMS.SSL %}
-				"hadoop.security.key.provider.path": "kms://http@{{ groups['RANGER_KMS_SERVER'][0] }}:9292/kms",
+				"hadoop.security.key.provider.path": "kms://http@{{ all['RANGER_KMS_SERVER'][0] }}:9292/kms",
 				{% else %}
 				"hadoop.security.key.provider.path": "",
 				{% endif %}
@@ -36,9 +36,9 @@
 				"dfs.domain.socket.path": "/var/lib/hadoop-hdfs/dn_socket",
 				"dfs.encrypt.data.transfer.cipher.suites": "AES/CTR/NoPadding",
 				{% if cluster_services.RANGER_KMS is defined and cluster_services.RANGER_KMS.SSL is defined and cluster_services.RANGER_KMS.SSL %}
-				"dfs.encryption.key.provider.uri": "kms://https@{{ groups['RANGER_KMS_SERVER'][0] }}:9393/kms",
+				"dfs.encryption.key.provider.uri": "kms://https@{{ all['RANGER_KMS_SERVER'][0] }}:9393/kms",
 				{% elif cluster_services.RANGER_KMS is defined and cluster_services.RANGER_KMS.SSL is defined and not cluster_services.RANGER_KMS.SSL %}
-				"dfs.encryption.key.provider.uri": "kms://http@{{ groups['RANGER_KMS_SERVER'][0] }}:9292/kms",
+				"dfs.encryption.key.provider.uri": "kms://http@{{ all['RANGER_KMS_SERVER'][0] }}:9292/kms",
 				{% else %}"dfs.encryption.key.provider.uri": "",{% endif %}
 				{% if cluster_services.HDFS.HA is defined and cluster_services.HDFS.HA %}"dfs.ha.automatic-failover.enabled": "true",
 	      "dfs.ha.fencing.methods": "shell(/bin/true)",
@@ -66,14 +66,14 @@
 				"dfs.namenode.secondary.https-address" : "{{ second_namenode }}:50091";
 				"dfs.namenode.rpc-address": "{{ first_namenode }}:8020",{% endif %}
 				{% if cluster_services.HDFS.HA is defined and cluster_services.HDFS.HA %}
-				"dfs.namenode.http-address.{{ cluster_name }}.nn1": "{{ groups['NAMENODE'][0] }}:50070",
-	      "dfs.namenode.http-address.{{ cluster_name }}.nn2" : "{{ groups['NAMENODE'][1] }}:50070",
-				"dfs.namenode.https-address.{{ cluster_name }}.nn1": "{{ groups['NAMENODE'][0] }}:50470",
-	      "dfs.namenode.https-address.{{ cluster_name }}.nn2" : "{{ groups['NAMENODE'][1] }}:50470",
-				"dfs.namenode.rpc-address.{{ cluster_name }}.nn1": "{{ groups['NAMENODE'][0] }}:8020",
-	      "dfs.namenode.rpc-address.{{ cluster_name }}.nn2" : "{{ groups['NAMENODE'][1] }}:8020",
+				"dfs.namenode.http-address.{{ cluster_name }}.nn1": "{{ all['NAMENODE'][0] }}:50070",
+	      "dfs.namenode.http-address.{{ cluster_name }}.nn2" : "{{ all['NAMENODE'][1] }}:50070",
+				"dfs.namenode.https-address.{{ cluster_name }}.nn1": "{{ all['NAMENODE'][0] }}:50470",
+	      "dfs.namenode.https-address.{{ cluster_name }}.nn2" : "{{ all['NAMENODE'][1] }}:50470",
+				"dfs.namenode.rpc-address.{{ cluster_name }}.nn1": "{{ all['NAMENODE'][0] }}:8020",
+	      "dfs.namenode.rpc-address.{{ cluster_name }}.nn2" : "{{ all['NAMENODE'][1] }}:8020",
 				"dfs.journalnode.edits.dir": "{% for dir in hdp_journalnode_dir %}{{ dir }}{% if not loop.last %},{% endif %}{% endfor %}",
-				"dfs.namenode.shared.edits.dir": "qjournal://{% for journalnode in groups['JOURNALNODE'] %}{{ journalnode }}:8485{% if not loop.last %};{% endif %}{% endfor %}/{{ cluster_name }}",
+				"dfs.namenode.shared.edits.dir": "qjournal://{% for journalnode in all['JOURNALNODE'] %}{{ journalnode }}:8485{% if not loop.last %};{% endif %}{% endfor %}/{{ cluster_name }}",
 				"dfs.nameservices": "{{ cluster_name }}",{% endif %}
 				{% if cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN.HDFS is defined and cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN.HDFS %}"dfs.namenode.inode.attributes.provider.class" : "org.apache.ranger.authorization.hadoop.RangerHdfsAuthorizer",{% endif %}
 				"dfs.namenode.stale.datanode.interval": "30000",

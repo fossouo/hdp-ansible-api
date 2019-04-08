@@ -55,7 +55,7 @@
         "hive.mapjoin.hybridgrace.hashtable" : "false",
         "hive.merge.nway.joins" : "false",
         "hive.metastore.event.listeners" : "",{% endraw %}
-        "hive.metastore.uris" : "thrift://{{ groups['HIVE_METASTORE'][0] }}:9083",{% raw %}
+        "hive.metastore.uris" : "thrift://{{ all['HIVE_METASTORE'][0] }}:9083",{% raw %}
         "hive.optimize.dynamic.partition.hashjoin" : "true",
         "hive.prewarm.enabled" : "false",
         "hive.server2.enable.doAs" : "false",

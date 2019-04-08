@@ -20,8 +20,8 @@
 				{%if cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN[in_services] is defined and cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN[in_services] and in_services == "HDFS" %}
 				"dfs.nameservices": "{{ cluster_name }}",
 				"dfs.ha.namenodes.{{ cluster_name }}" : "nn1,nn2",
-				"dfs.namenode.rpc-address.{{ cluster_name }}.nn1": "{{ groups['NAMENODE'][0] }}:8020",
-	      "dfs.namenode.rpc-address.{{ cluster_name }}.nn2" : "{{ groups['NAMENODE'][1] }}:8020",
+				"dfs.namenode.rpc-address.{{ cluster_name }}.nn1": "{{ all['NAMENODE'][0] }}:8020",
+	      "dfs.namenode.rpc-address.{{ cluster_name }}.nn2" : "{{ all['NAMENODE'][1] }}:8020",
 				"dfs.client.failover.proxy.provider.{{ cluster_name }}" : "org.apache.hadoop.hdfs.server.namenode.ha.ConfiguredFailoverProxyProvider",
 				{% endif %}
         {%if cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN[in_services] is defined and cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN[in_services] and in_services == "HIVE" %}"jdbc.driverClassName" : "org.apache.hive.jdbc.HiveDriver",{% endif %}

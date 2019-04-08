@@ -10,9 +10,9 @@
 	      "javax.jdo.option.ConnectionPassword": "{{ database_hive_user_password }}",
         "ambari.hive.db.schema.name" : "hive",
 				{% if cluster_services.ATLAS is defined and cluster_services.ATLAS.SSL is defined and cluster_services.HIVE.SSL %}
-				"atlas.rest.address": "https://{{groups['ATLAS_SERVER'][0]}}:21443",
+				"atlas.rest.address": "https://{{all['ATLAS_SERVER'][0]}}:21443",
 				{% elif cluster_services.ATLAS is defined and cluster_services.ATLAS.SSL is not defined %}
-				"atlas.rest.address": "http://{{groups['ATLAS_SERVER'][0]}}:21000",
+				"atlas.rest.address": "http://{{all['ATLAS_SERVER'][0]}}:21000",
 				{% else %}
 				"atlas.rest.address": "http://localhost:21000",
 				{% endif %}
@@ -101,7 +101,7 @@
         "hive.metastore.pre.event.listeners" : "org.apache.hadoop.hive.ql.security.authorization.AuthorizationPreEventListener",
         "hive.metastore.sasl.enabled" : "false",
         "hive.metastore.server.max.threads" : "100000",
-        "hive.metastore.uris" : "thrift://{{ groups['HIVE_METASTORE'][0] }}:9083",
+        "hive.metastore.uris" : "thrift://{{ all['HIVE_METASTORE'][0] }}:9083",
         "hive.metastore.warehouse.dir" : "/apps/hive/warehouse",
         "hive.optimize.bucketmapjoin" : "true",
         "hive.optimize.bucketmapjoin.sortedmerge" : "false",

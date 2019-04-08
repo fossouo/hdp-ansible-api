@@ -1,3 +1,7 @@
 templates/*.json
 templates/fix.json.j2
 ._*
+molecule
+molecule.bck
+venv
+.yamllint

@@ -8,9 +8,9 @@
         "oozie.authentication.simple.anonymous.allowed" : "true",
         "oozie.authentication.type" : "simple",{% endraw %}
 				{% if cluster_services.OOZIE.SSL is defined and cluster_services.OOZIE.SSL %}
-				"oozie.base.url" : "https://{{ groups['OOZIE_SERVER'][0] }}:11443/oozie",
+				"oozie.base.url" : "https://{{ all['OOZIE_SERVER'][0] }}:11443/oozie",
 				{% else %}
-				"oozie.base.url" : "http://{{ groups['OOZIE_SERVER'][0] }}:11000/oozie",
+				"oozie.base.url" : "http://{{ all['OOZIE_SERVER'][0] }}:11000/oozie",
 				{% endif %}
 				{% raw %}
         "oozie.credentials.credentialclasses" : "hcat=org.apache.oozie.action.hadoop.HCatCredentials,hive2=org.apache.oozie.action.hadoop.Hive2Credentials",

@@ -64,7 +64,7 @@
     - components.ha
   loop_control:
     label: "{{ item.1 }}"
-  when: item.0.name in cluster_services and cluster_services[item.0.name].HA is defined and groups[item.1] is defined and cluster_services[item.0.name].HA and item.1 != ""
+  when: item.0.name in cluster_services and cluster_services[item.0.name].HA is defined and all[item.1] is defined and cluster_services[item.0.name].HA and item.1 != ""
   failed_when: register_components_ha.status not in [409, 200, 201, 202]
 
 - name: Register components
@@ -86,7 +86,7 @@
     - components.noha
   loop_control:
     label: "{{ item.1 }}"
-  when: item.0.name in cluster_services and cluster_services[item.0.name] is defined and groups[item.1] is defined and cluster_services[item.0.name].HA is not defined and item.1 != ""
+  when: item.0.name in cluster_services and cluster_services[item.0.name] is defined and all[item.1] is defined and cluster_services[item.0.name].HA is not defined and item.1 != ""
   failed_when: register_components_noha.status not in [409, 200, 201, 202]
 
 - name: Register clients components
@@ -108,7 +108,7 @@
     - components.client
   loop_control:
     label: "{{ item.1 }}"
-  when: item.0.name in cluster_services and cluster_services[item.0.name] is defined and groups[item.1] is defined and item.1 != ""
+  when: item.0.name in cluster_services and cluster_services[item.0.name] is defined and all[item.1] is defined and item.1 != ""
   failed_when: register_components_clients.status not in [409, 200, 201, 202]
   ignore_errors: True
 

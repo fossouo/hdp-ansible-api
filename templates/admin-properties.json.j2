@@ -13,9 +13,9 @@
 	        "db_root_password" : "",
 	        "db_root_user" : "",
 					{% if cluster_services.RANGER.SSL is defined and cluster_services.RANGER.SSL %}
-					"policymgr_external_url": "https://{{ groups['RANGER_ADMIN'][0] }}:6182"
+					"policymgr_external_url": "https://{{ all['RANGER_ADMIN'][0] }}:6182"
 					{% else %}
-					"policymgr_external_url": "http://{{ groups['RANGER_ADMIN'][0] }}:6080"
+					"policymgr_external_url": "http://{{ all['RANGER_ADMIN'][0] }}:6080"
 					{% endif %}
 			}
 		}
