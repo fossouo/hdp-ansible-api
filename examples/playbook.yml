@@ -1,9 +1,12 @@
 - hosts: admin1
   gather_facts: yes
+  vars_files:
+    - cluster.yaml
 
   roles:
     - role: ambari-cluster
       vars:
+        silent: true
         ambari_server_hostname: admin1
         ambari_server_port: 7443
         ambari_server_protocol: https
