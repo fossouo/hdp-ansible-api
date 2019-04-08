@@ -1,6 +1,7 @@
 ---
 - name: Trigger installation
   pause: prompt='Please confirm you want to trigger the installation for the cluster {{ cluster_name }}! Press return to continue. Press Ctrl+c and then "a" to abort'
+  when: not silent
 
 - name: Trigger installation
   uri:
