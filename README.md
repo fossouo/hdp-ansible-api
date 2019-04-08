@@ -24,39 +24,11 @@ You should adjust your VDF file to match the stack you need.
 Look at an example on [HDP 2.6 repositories VDF definitions](https://docs.hortonworks.com/HDPDocuments/Ambari-2.6.2.2/bk_ambari-installation/content/hdp_26_repositories.html).
 
 
-## Hosts/Playbook file
+## Hosts - Cluster definition - Playbook file
 
 Check the folder examples
 
-Each services in "cluster_services" needs specific groups in your hosts file.
-
-Example:
-
-```
-
-[NAMENODE]
-
-master1.habibiz
-
-master1.habibiz
-
-
-
-[DATANODE]
-
-worker1.habibiz
-
-worker2.habibiz
-
-worker3.habibiz
-
-
-
-[RANGER_ADMIN]
-
-admin1.habibiz
-
-```
+Each services in "cluster_services" needs specific groups in your cluster file. Check examples/cluster.yaml
 
 ## Run
 
@@ -92,3 +64,4 @@ support.
 - ~~Kerberos role~~
 - Auto load correct VDF file
 - Autogenerate certs with default keystore
+- HDP 3.1
