@@ -37,7 +37,7 @@ all:
       - worker1.habibiz
       - worker2.habibiz
       - worker3.habibiz
-  HDTV01:
+  MYCLUSTER:
       - admin1.habibiz
       - master1.habibiz
       - master2.habibiz

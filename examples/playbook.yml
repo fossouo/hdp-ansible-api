@@ -13,12 +13,12 @@
         cluster_name: dev01                 ## without special caracter, space, underscore...
         ambari_username: admin
         ambari_password: admin
-        cluster_hosts: "{{ groups['MYCLUSTER'] }}"
+        cluster_hosts: "{{ all['MYCLUSTER'] }}"
         repos_url_hdp: "http://my_repo_url/HDP/centos7/2.6.4.0-91/"
         repos_url_hdp_utils: "http://my_repo_url/UTIL/"
-        first_namenode: "{{ groups['NAMENODE'][0] }}"
-        second_namenode: "{{ groups['NAMENODE'][1] }}"
-        zookeeper_quorum: "{{ groups['ZOOKEEPER_SERVER'] }}"
+        first_namenode: "{{ all['NAMENODE'][0] }}"
+        second_namenode: "{{ all['NAMENODE'][1] }}"
+        zookeeper_quorum: "{{ all['ZOOKEEPER_SERVER'] }}"
         hdp_namenode_dir:
           - "/data/nn"
         hdp_datanode_dir:
@@ -63,7 +63,7 @@
         kerberos_principal_password: admin123                             ####
         ignore_create_users_and_groups: false                             ## Ignore creation of default users/groups with Ambari
         ambari_manage_krb5_conf: true                                     ## True : Ambari-server iwll manage krb5.conf
-        hdp_version: 2.5                                                  ## HDP version (2.1 2.2 [..] 2.6)
+        hdp_version: 2.6                                                  ## HDP version (2.1 2.2 [..] 2.6)
         vdf_path: templates/repository_version/HDP2.6.xml                 ## VDF path if you want a specific HDP version
         cluster_services:
           HDFS:
