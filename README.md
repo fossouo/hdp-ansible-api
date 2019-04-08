@@ -8,15 +8,13 @@ It uses Ambari's REST API to populate the database and install HDP Stack.
 ## Version Supports
 
 - Ambari
-  *  2.6.2.2
-  *  2.6.2.0
-  *  2.6.1.5
-  *  2.6.1.0
+  *  2.6.x
+  *  2.7.x
 
 
 - HDP Stacks
 
-It's supports all HDP Stack than Ambari 2.6.x version supports.
+It's supports all HDP Stack than Ambari >2.6.x version supports.
 
 You should use [Hortonworks Support Matrix](https://supportmatrix.hortonworks.com/).
 
@@ -64,4 +62,4 @@ support.
 - ~~Kerberos role~~
 - Auto load correct VDF file
 - Autogenerate certs with default keystore
-- HDP 3.1
+- ~~HDP 3.1~~
