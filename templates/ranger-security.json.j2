@@ -5,9 +5,9 @@
 			"tag": "{{ range(00000000, 99999999) | random }}",
 			"properties": {
 				{% if cluster_services.RANGER is defined and cluster_services.RANGER.SSL is defined and cluster_services.RANGER.SSL %}
-        "ranger.plugin.{{ in_services|lower }}.policy.rest.url" : "https://{{ groups['RANGER_ADMIN'][0] }}:6182",
+        "ranger.plugin.{{ in_services|lower }}.policy.rest.url" : "https://{{ all['RANGER_ADMIN'][0] }}:6182",
 				{% else %}
-        "ranger.plugin.{{ in_services|lower }}.policy.rest.url" : "http://{{ groups['RANGER_ADMIN'][0] }}:6080",
+        "ranger.plugin.{{ in_services|lower }}.policy.rest.url" : "http://{{ all['RANGER_ADMIN'][0] }}:6080",
 				{% endif %}
         "ranger.plugin.{{ in_services|lower }}.policy.pollIntervalMs" : "30000",
         "ranger.plugin.{{ in_services|lower }}.policy.source.impl" : "org.apache.ranger.admin.client.RangerAdminRESTClient",
@@ -19,10 +19,10 @@
 				{%if cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN[in_services] is defined and cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN[in_services] and in_services == "HIVE" %}
 				{% raw %}"ranger.plugin.hive.policy.rest.ssl.config.file" : "/usr/hdp/current/{{ranger_hive_component}}/conf/conf.server/ranger-policymgr-ssl.xml"{% endraw %}
 				{% elif cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN[in_services] is defined and cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN[in_services] and in_services in ["HDFS", "YARN"] and cluster_services.RANGER.SSL is defined and cluster_services.RANGER.SSL %}
-				"xasecure.add-hadoop-authorization" : "false",
+				"xasecure.add-hadoop-authorization" : "true",
 				"ranger.plugin.{{ in_services|lower }}.policy.rest.ssl.config.file" : "/etc/hadoop/conf/ranger-policymgr-ssl.xml"
 				{% elif cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN[in_services] is defined and cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN[in_services] and in_services == "HDFS" and cluster_services.RANGER.SSL is defined and cluster_services.RANGER.SSL %}
-				"xasecure.add-hadoop-authorization" : "false"
+				"xasecure.add-hadoop-authorization" : "true"
 				{% else %}
 				"ranger.plugin.{{ in_services|lower }}.policy.rest.ssl.config.file" : "/etc/{{ in_services|lower }}/conf/ranger-policymgr-ssl.xml"
 				{% endif %}
