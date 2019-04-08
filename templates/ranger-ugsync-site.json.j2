@@ -5,11 +5,13 @@
 			"tag": "{{ range(00000000, 99999999) | random }}",
 			"properties": {
 			{% if cluster_services.RANGER.SSL is defined and cluster_services.RANGER.SSL %}
-			"ranger.usersync.truststore.file" : "/usr/hdp/current/ranger-usersync/conf/mytruststore.jks",
-			"ranger.usersync.truststore.password" : "changeit",
+			"ranger.usersync.truststore.file" : "{{ ssl_truststore_path }}",
+			"ranger.usersync.truststore.password" : "{{ ssl_truststore_password }}",
+			"ranger.usersync.ssl" : "true",
 			{% else %}
 			"ranger.usersync.truststore.file" : "/usr/hdp/current/ranger-usersync/conf/mytruststore.jks",
 			"ranger.usersync.truststore.password" : "changeit",
+			"ranger.usersync.ssl" : "false",
 			{% endif %}
 			{% raw %}"ranger.usersync.credstore.filename" : "/usr/hdp/current/ranger-usersync/conf/ugsync.jceks",
         "ranger.usersync.enabled" : "true",
@@ -59,7 +61,6 @@
         "ranger.usersync.sink.impl.class" : "org.apache.ranger.unixusersync.process.PolicyMgrUserGroupBuilder",
         "ranger.usersync.sleeptimeinmillisbetweensynccycle" : "60000",
         "ranger.usersync.source.impl.class" : "org.apache.ranger.unixusersync.process.UnixUserGroupBuilder",
-        "ranger.usersync.ssl" : "true",
         "ranger.usersync.unix.group.file" : "/etc/group",
         "ranger.usersync.unix.minUserId" : "500",
         "ranger.usersync.unix.password.file" : "/etc/passwd",
