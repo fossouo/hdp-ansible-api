@@ -41,13 +41,13 @@ services:
       ha: ['']
       client: ['PIG']
     smoketest: ['PIG_SERVICE_CHECK']
-  - name: SLIDER
-    conf: ['slider-env', 'slider-log4j']
-    components:
-      noha: ['']
-      ha: ['']
-      client: ['SLIDER']
-    smoketest: ['']
+  # - name: SLIDER
+  #   conf: ['slider-env', 'slider-log4j']
+  #   components:
+  #     noha: ['']
+  #     ha: ['']
+  #     client: ['SLIDER']
+  #   smoketest: ['']
   - name: ZOOKEEPER
     conf: ['zoo.cfg', 'zookeeper-env', 'zookeeper-log4j', 'zookeeper-logsearch-conf']
     components:
@@ -63,12 +63,12 @@ services:
       client: ['HBASE_CLIENT']
     smoketest: ['HBASE_SERVICE_CHECK']
   - name: HIVE
-    conf: ['hive-site', 'hive-env', 'hcat-env', 'hivemetastore-site', 'hiveserver2-site', 'webhcat-site', 'webhcat-env', 'beeline-log4j2', 'hive-atlas-application.properties', 'hive-exec-log4j', 'hive-exec-log4j2', 'hive-interactive-env', 'hive-interactive-site', 'hive-log4j', 'hive-log4j2', 'hive-logsearch-conf', 'hiveserver2-interactive-site', 'llap-cli-log4j2', 'llap-daemon-log4j', 'parquet-logging', 'tez-interactive-site', 'webhcat-log4j']
+    conf: ['hive-site', 'hive-env', 'hivemetastore-site', 'hiveserver2-site', 'beeline-log4j2', 'hive-atlas-application.properties', 'hive-exec-log4j', 'hive-exec-log4j2', 'hive-interactive-env', 'hive-interactive-site', 'hive-log4j', 'hive-log4j2', 'hive-logsearch-conf', 'hiveserver2-interactive-site', 'llap-cli-log4j2', 'llap-daemon-log4j', 'parquet-logging', 'tez-interactive-site']
     components:
-      noha: ['HIVE_SERVER', 'HIVE_METASTORE', 'WEBHCAT_SERVER']
-      ha: ['HIVE_SERVER', 'HIVE_METASTORE', 'WEBHCAT_SERVER']
-      client: ['HIVE_CLIENT', 'HCAT']
-    smoketest: ['HIVE_SERVICE_CHECK', 'WEBHCAT_SERVICE_CHECK']
+      noha: ['HIVE_SERVER', 'HIVE_METASTORE']
+      ha: ['HIVE_SERVER', 'HIVE_METASTORE']
+      client: ['HIVE_CLIENT']
+    smoketest: ['HIVE_SERVICE_CHECK']
   - name: RANGER
     conf: ['ranger-admin-site', 'ranger-env', 'admin-properties', 'admin-log4j', 'ranger-ugsync-site', 'usersync-properties', 'usersync-log4j', 'ranger-solr-configuration']
     components:
