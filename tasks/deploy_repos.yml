@@ -4,6 +4,15 @@
     src: templates/repository_versions/hdp.repo.j2
     dest: /etc/yum.repos.d/hdp.repo
   delegate_to: "{{ item }}"
+  when: hdp_repo_path is not defined
+  with_items:
+    - "{{ cluster_hosts }}"
+
+- copy:
+    src: "{{hdp_repo_path}}"
+    dest: /etc/yum.repos.d/hdp.repo
+  delegate_to: "{{ item }}"
+  when: hdp_repo_path is defined
   with_items:
     - "{{ cluster_hosts }}"
 
