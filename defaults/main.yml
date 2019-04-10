@@ -15,7 +15,7 @@ services:
       client: ['HDFS_CLIENT']
     smoketest: ['HDFS_SERVICE_CHECK']
   - name: YARN
-    conf: ['yarn-site', 'yarn-env', '{{capacity_scheduler_file}}', 'ssl-client', 'ssl-server', 'yarn-log4j', 'yarn-logsearch-conf']
+    conf: ['yarn-site', 'yarn-env', '{{capacity_scheduler_file}}', 'ssl-client', 'ssl-server', 'yarn-hbase-env', 'yarn-hbase-log4j', 'yarn-hbase-site', 'resource-types', 'container-executor']
     components:
       noha: ['RESOURCEMANAGER', 'NODEMANAGER', 'APP_TIMELINE_SERVER']
       ha: ['RESOURCEMANAGER', 'NODEMANAGER', 'APP_TIMELINE_SERVER']
