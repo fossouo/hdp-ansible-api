@@ -29,8 +29,12 @@
 	        "ranger-storm-plugin-enabled" : "{%if cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN.STORM is defined and cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN.STORM %}Yes{% else %}No{% endif %}",
 	        "ranger-yarn-plugin-enabled" : "{%if cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN.YARN is defined and cluster_services.RANGER is defined and cluster_services.RANGER.PLUGIN.YARN %}Yes{% else %}No{% endif %}",
 	        "ranger_admin_log_dir" : "/var/log/ranger/admin",
+					"admin_password": "{{ranger_admin_password}}",
 	        "ranger_admin_password" : "{{ranger_admin_password}}",
-	        "ranger_admin_username" : "amb_ranger_admin",
+					"rangerusersync_user_password": "{{rangerusersync_user_password}}",
+					"rangertagsync_user_password": "{{rangertagsync_user_password}}",
+					"keyadmin_user_password": "{{keyadmin_user_password}}",
+	        "ranger_admin_username" : "amb_ranger_admin",	
 	        "ranger_group" : "ranger",
 	        "ranger_pid_dir" : "/var/run/ranger",
 	        "ranger_solr_collection_name" : "ranger_audits",
@@ -39,7 +43,8 @@
 	        "ranger_solr_shards" : "1",
 	        "ranger_user" : "ranger",
 	        "ranger_usersync_log_dir" : "/var/log/ranger/usersync",
-	        "xml_configurations_supported" : "true"
+	        "xml_configurations_supported" : "true",{% raw %}
+					"content": "#!/bin/bash\n\n# Licensed to the Apache Software Foundation (ASF) under one\n# or more contributor license agreements.  See the NOTICE file\n# distributed with this work for additional information\n# regarding copyright ownership.  The ASF licenses this file\n# to you under the Apache License, Version 2.0 (the\n# \"License\"); you may not use this file except in compliance\n# with the License.  You may obtain a copy of the License at\n#\n#  http://www.apache.org/licenses/LICENSE-2.0\n#\n# Unless required by applicable law or agreed to in writing, software\n# distributed under the License is distributed on an \"AS IS\" BASIS,\n# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n# See the License for the specific language governing permissions and\n# limitations under the License.\n\n# Set Ranger-specific environment variables here.\nexport JAVA_HOME={{java_home}}\n\n{% if is_ranger_admin_host  %}\n# Ranger Admin specific environment variables here.\nexport RANGER_ADMIN_LOG_DIR={{admin_log_dir}}\nexport RANGER_PID_DIR_PATH={{ranger_pid_dir}}\nexport RANGER_USER={{unix_user}}\nranger_admin_max_heap_size={{ranger_admin_max_heap_size}}\n{% if security_enabled %}\nexport JAVA_OPTS=\" ${JAVA_OPTS} -Dzookeeper.sasl.client.username={{zookeeper_principal_primary}} \"\n{% endif %}\n{% endif %}\n\n{% if is_ranger_usersync_host  %}\n# Ranger Usersync specific environment variables here.\nexport USERSYNC_CONF_DIR={{ranger_ugsync_conf}}\nexport logdir={{usersync_log_dir}}\nexport USERSYNC_PID_DIR_PATH={{ranger_pid_dir}}\nexport UNIX_USERSYNC_USER={{unix_user}}\nranger_usersync_max_heap_size={{ranger_usersync_max_heap_size}}\n{% endif %}\n\n{% if is_ranger_tagsync_host  %}\n# Ranger Tagsync specific environment variables here.\nexport RANGER_TAGSYNC_LOG_DIR={{tagsync_log_dir}}\nexport TAGSYNC_PID_DIR_PATH={{ranger_pid_dir}}\nexport UNIX_TAGSYNC_USER={{unix_user}}\nranger_tagsync_max_heap_size={{ranger_tagsync_max_heap_size}}\n{% endif %}"{% endraw %}
 			}
 		}
 	}
