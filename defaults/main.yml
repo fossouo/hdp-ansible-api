@@ -4,6 +4,7 @@ capacity_scheduler_file: 'capacity-scheduler'
 base_cluster:
   conf: ['global', 'hadoop-env']
 vdf_source: "{{ vdf_path | default('templates/repo.xml.j2') }}"
+tez_am_resource_memory_mb: 1024
 sattelite_repo: false
 services:
   - name: HDFS
