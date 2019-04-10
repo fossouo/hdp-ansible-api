@@ -4,6 +4,8 @@
 			"type": "hive-site",
 			"tag": "{{ range(00000000, 99999999) | random }}",
 			"properties": {
+				"hive.metastore.warehouse.external.dir": "/warehouse/tablespace/external/hive",
+				"hive.hook.proto.base-directory": "{hive_metastore_warehouse_external_dir}/sys.db/query_data/",
 				"javax.jdo.option.ConnectionDriverName" : {% if database_type == "mysql" %}"com.mysql.jdbc.Driver"{% elif database_type == "postgresql" %}"org.postgresql.Driver"{% endif %},
 	      "javax.jdo.option.ConnectionURL": "jdbc:{{ database_type }}://{{ database_server }}/{{ database_hive }}?createDatabaseIfNotExist=true",
 	      "javax.jdo.option.ConnectionUserName": "{{ database_hive_user }}",

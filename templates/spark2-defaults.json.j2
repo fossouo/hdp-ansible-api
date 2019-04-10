@@ -4,6 +4,7 @@
 			"type": "spark2-defaults",
 			"tag": "{{ range(00000000, 99999999) | random }}",
 			"properties": { {% raw %}
+				"spark.sql.warehouse.dir" : "/apps/spark/warehouse",
         "spark.driver.extraLibraryPath" : "{{spark_hadoop_lib_native}}",
         "spark.eventLog.dir" : "hdfs:///spark2-history/",
         "spark.eventLog.enabled" : "true",
